@@ -1,3 +1,7 @@
+### 软件下载
+
+[https://github.com/biheBlockChain/getBonusCode-java/releases](https://github.com/biheBlockChain/getBonusCode-java/releases)
+
 ### 配置java8环境
 
 [下载地址](https://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)
@@ -40,4 +44,8 @@
 
 出现上面的即为运行成功，等待抢码即可
 
+关注公众号： **币合区块链**  获取更多
 
+官方交流群： 490389116
+
+![](https://mp.weixin.qq.com/mp/qrcode?scene=10000004&size=102&__biz=MzUyNzYzOTE1Mg==&mid=2247483718&idx=1&sn=39dbf5a7df237b6f5e87e8c555c85273&send_time=)
