@@ -1,0 +1,20 @@
+{
+  "email": "iwrbug@gmail.com",
+  "password": "",
+  "ruokuaiUsername": "",
+  "ruokuaiPassword": "",
+  "loopTimes": 10,
+  "leadTimeMills": 20000,
+  "thread": 5,
+  "preCaptchaCount": 30
+}
+
+
+//若快软件id：114991
+//email : 博纳云登录邮箱
+//password: 博纳云登录密码
+//ruokuaiUsername:  若快账号
+//ruokuaiPassword: 若快
+//loopTimes ： 每个线程抢购次数
+//leadTimeMills： 提前时间（毫秒）
+//thread: 线程数
