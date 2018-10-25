@@ -21,6 +21,7 @@ public class Main {
     private static long startTime;
 
     public static void main(String[] args) {
+//        OkhttpUtils.initProxy("127.0.0.1",8888);
         print("\n币合博纳云抢码脚本 版本号：" + Version.versionName +
                 "\n使用后面的邀请地址注册，更容易成功，博纳云注册：https://console.bonuscloud.io/signUp?refer=264a1ce0d14511e894a05731b778d621" +
                 "\n更多工具请关注：币合区块链" +
@@ -39,9 +40,7 @@ public class Main {
             print("若快打码失败");
             return;
         }
-        while (true) {
-            startLoop();
-        }
+        startLoop();
     }
 
     private static void startLoop() {
@@ -54,7 +53,7 @@ public class Main {
         boolean preGet = false;
         while (true) {
             long delta = startTime - System.currentTimeMillis() - sConfigInfo.getLeadTimeMills();
-            if (delta <= 2 * 60 * 1000 && !preGet) {
+            if (delta <= 3 * 60 * 1000 && !preGet) {
                 preGet = true;
                 sCaptchInfoStack.clear();
                 getPreCaptcha();
@@ -64,7 +63,7 @@ public class Main {
                 start();
                 break;
             }
-            print((delta / 1000) + "秒后开始抢购");
+            print((delta / 1000) + "秒后开始抢码");
             if (delta <= 5000) {
                 sleep(delta - 100);
                 continue;
@@ -121,7 +120,6 @@ public class Main {
                             return;
                         }
                     }
-                    sleep(100);
                 }
             }).start();
             sleep(100);
@@ -170,8 +168,11 @@ public class Main {
             Response response = HttpUtils.post("/api/user/login", null, map);
             String date = response.header("date");
             long parse = Date.parse(date);
-            systemDelay = System.currentTimeMillis() - parse;
-            print("服务器延时：" + systemDelay);
+            long localTime = System.currentTimeMillis();
+            systemDelay = localTime - parse;
+            print("本地时间：" + DateUtils.formatLongToDate(localTime));
+            print("服务器时间：" + DateUtils.formatLongToDate(parse));
+            print("时间校准：" + systemDelay + "毫秒");
             String result = response.body().string();
             JsonObject jsonObject = JsonHelper.fromJson(result);
             if (jsonObject.has("code") && jsonObject.get("code").getAsInt() == 200) {
@@ -237,7 +238,6 @@ public class Main {
                     }
                     if (message.contains("next time") && System.currentTimeMillis() > startTime) {
                         print("该时段已抢完");
-                        System.exit(0);
                         return false;
                     }
                     if (message.contains("captcha error")) {

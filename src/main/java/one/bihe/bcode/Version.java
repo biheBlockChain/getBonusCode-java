@@ -10,7 +10,7 @@ import java.io.IOException;
 import static one.bihe.bcode.util.PrintUtils.print;
 
 public class Version {
-    public static String versionName = "1.0.1";
+    public static String versionName = "1.0.2";
 
     public static void check() {
         print("正在检查新版本");

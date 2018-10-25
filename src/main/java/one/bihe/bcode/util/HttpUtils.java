@@ -3,12 +3,18 @@ package one.bihe.bcode.util;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.Collections;
 import java.util.Map;
 
 public class HttpUtils {
     private static final String API_URL = "https://ec2-54-199-229-221.ap-northeast-1.compute.amazonaws.com";
+//    private static OkHttpClient proxyClient;
 
+//    static {
+//        proxyClient = OkhttpUtils.getProxyClient(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 1087)));
+//    }
 
     public static Response get(String url, Map<String, String> header) throws IOException {
         OkHttpClient client = OkhttpUtils.getClient();
