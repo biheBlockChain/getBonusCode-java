@@ -156,7 +156,7 @@ public class Main {
                 .append("每个线程抢购次数：").append(sConfigInfo.getLoopTimes()).append("\n")
                 .append("提前时间（毫秒）：").append(sConfigInfo.getLeadTimeMills()).append("\n")
                 .append("线程数：").append(sConfigInfo.getThread()).append("\n")
-                .append("预获取验证码数量：").append(sConfigInfo.getThread()).append("\n");
+                .append("预获取验证码数量：").append(sConfigInfo.getPreCaptchaCount()).append("\n");
         print(builder.toString());
         return true;
     }
