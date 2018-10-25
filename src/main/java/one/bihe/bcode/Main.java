@@ -131,7 +131,7 @@ public class Main {
         print("读取配置文件");
         String str = FileUtils.readFile(CONFIG_FILE);
         if (!str.contains("{") || !str.contains("}")) {
-            print("读取失败，请检查config.json配置");
+            print("读取失败，请检查config.json配置，建议将config.json第一行换行");
             return false;
         }
         str = str.substring(str.indexOf("{"), str.lastIndexOf("}") + 1);
@@ -184,6 +184,7 @@ public class Main {
                 return false;
             }
         } catch (IOException e) {
+            e.printStackTrace();
         }
         return doLogin();
     }
@@ -238,6 +239,7 @@ public class Main {
                     }
                     if (message.contains("next time") && System.currentTimeMillis() > startTime) {
                         print("该时段已抢完");
+                        System.exit(0);
                         return false;
                     }
                     if (message.contains("captcha error")) {
