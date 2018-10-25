@@ -18,6 +18,7 @@ public class Main {
     private static long systemDelay;
     private static Stack<CaptchInfo> sCaptchInfoStack = new Stack<>();
     private static boolean success = false;
+    private static long startTime;
 
     public static void main(String[] args) {
         print("\n币合博纳云抢码脚本 版本号：" + Version.versionName +
@@ -48,7 +49,7 @@ public class Main {
         date.setSeconds(0);
         date.setMinutes(0);
         date.setHours(date.getHours() + 1);
-        long startTime = date.getTime() + systemDelay;
+        startTime = date.getTime() + systemDelay;
         print("抢码时间:" + DateUtils.formatLongToDate(date.getTime()));
         boolean preGet = false;
         while (true) {
@@ -120,6 +121,7 @@ public class Main {
                             return;
                         }
                     }
+                    sleep(100);
                 }
             }).start();
             sleep(100);
@@ -225,6 +227,23 @@ public class Main {
             if (jsonObject != null) {
                 if (jsonObject.has("code") && jsonObject.get("code").getAsInt() == 200) {
                     return true;
+                }
+                if (jsonObject.has("message")) {
+                    String message = jsonObject.get("message").getAsString();
+                    if (message.contains("maximum in this time period") && System.currentTimeMillis() > startTime) {
+                        print("该时段已抢购成功");
+                        System.exit(0);
+                        return false;
+                    }
+                    if (message.contains("next time") && System.currentTimeMillis() > startTime) {
+                        print("该时段已抢完");
+                        System.exit(0);
+                        return false;
+                    }
+                    if (message.contains("captcha error")) {
+                        print("验证码有误");
+                        return false;
+                    }
                 }
             }
             print(json);
