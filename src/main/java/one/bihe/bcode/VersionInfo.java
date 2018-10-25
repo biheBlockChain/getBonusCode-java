@@ -3,6 +3,16 @@ package one.bihe.bcode;
 public class VersionInfo {
     private String versionName;
     private String desc;
+    private String downloadUrl;
+
+
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
+    }
 
     public String getVersionName() {
         return versionName;
