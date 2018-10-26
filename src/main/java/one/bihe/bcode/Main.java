@@ -18,6 +18,7 @@ public class Main {
     private static long systemDelay;
     private static Stack<CaptchInfo> sCaptchInfoStack = new Stack<>();
     private static boolean success = false;
+    private static boolean complete = false;
     private static long startTime;
 
     public static void main(String[] args) {
@@ -103,7 +104,7 @@ public class Main {
             int threasNum = i + 1;
             new Thread(() -> {
                 for (long l = 1; l < sConfigInfo.getLoopTimes() + 1; l++) {
-                    if (success) {
+                    if (success || complete) {
                         break;
                     }
                     print("线程" + threasNum + ", 第" + l + "次");
@@ -122,7 +123,7 @@ public class Main {
                     }
                 }
             }).start();
-            sleep(100);
+            sleep(300);
         }
     }
 
@@ -148,7 +149,7 @@ public class Main {
             print("请检查 若快账号 或 若快密码 是否填写");
             return false;
         }
-        StringBuilder builder = new StringBuilder("配置加载成功：\r\n");
+        StringBuilder builder = new StringBuilder("配置加载成功\n");
         builder.append("博纳云账号：").append(sConfigInfo.getEmail()).append("\n")
                 .append("若快账号：").append(sConfigInfo.getRuokuaiUsername()).append("\n")
                 .append("每个线程抢购次数：").append(sConfigInfo.getLoopTimes()).append("\n")
@@ -169,10 +170,10 @@ public class Main {
             String date = response.header("date");
             long parse = Date.parse(date);
             long localTime = System.currentTimeMillis();
-            systemDelay = localTime - parse;
+            systemDelay = (localTime - parse) / 1000 * 1000;
             print("本地时间：" + DateUtils.formatLongToDate(localTime));
             print("服务器时间：" + DateUtils.formatLongToDate(parse));
-            print("时间校准：" + systemDelay + "毫秒");
+            print("时间校准：" + (systemDelay / 1000) + "秒");
             String result = response.body().string();
             JsonObject jsonObject = JsonHelper.fromJson(result);
             if (jsonObject.has("code") && jsonObject.get("code").getAsInt() == 200) {
@@ -232,14 +233,15 @@ public class Main {
                 }
                 if (jsonObject.has("message")) {
                     String message = jsonObject.get("message").getAsString();
-                    if (message.contains("maximum in this time period") && System.currentTimeMillis() > startTime) {
+                    if (message.contains("maximum in this time period") && System.currentTimeMillis() - startTime > 7000) {
                         print("该时段已抢购成功");
-                        System.exit(0);
+                        complete = true;
                         return false;
                     }
-                    if (message.contains("next time") && System.currentTimeMillis() > startTime) {
+                    if (message.contains("next time") && System.currentTimeMillis() - startTime > 7000) {
                         print("该时段已抢完");
                         System.exit(0);
+                        complete = true;
                         return false;
                     }
                     if (message.contains("captcha error")) {
