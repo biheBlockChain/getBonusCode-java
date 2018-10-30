@@ -10,9 +10,19 @@ import java.io.IOException;
 import static one.bihe.bcode.util.PrintUtils.print;
 
 public class Version {
-    public static String versionName = "1.0.4";
+    public static String versionName = "1.0.5";
+    private static void getDesc() {
+        try {
+            Response response = HttpUtils.get("https://raw.githubusercontent.com/WrBug/getBonusCode-java/master/desc", null);
+            String string = response.body().string();
+            print(string);
+        } catch (IOException e) {
+
+        }
+    }
 
     public static void check() {
+        getDesc();
         print("正在检查新版本");
         try {
             Response response = HttpUtils.get("https://raw.githubusercontent.com/WrBug/getBonusCode-java/master/version.json", null);
@@ -25,7 +35,7 @@ public class Version {
                 print("无需更新");
                 return;
             }
-            print("\n---------\n发现新版本：" + versionInfo.getVersionName() + "\n版本说明：\n"+versionInfo.getDesc()+"\n下载地址：\n"+versionInfo.getDownloadUrl()+"\n请自行前往下载");
+            print("\n---------\n发现新版本：" + versionInfo.getVersionName() + "\n版本说明：\n" + versionInfo.getDesc() + "\n下载地址：\n" + versionInfo.getDownloadUrl() + "\n请自行前往下载");
         } catch (IOException e) {
 
         }

@@ -23,10 +23,7 @@ public class Main {
 
     public static void main(String[] args) {
 //        OkhttpUtils.initProxy("127.0.0.1",8888);
-        print("\n币合博纳云抢码脚本 版本号：" + Version.versionName +
-                "\n使用后面的邀请地址注册，更容易成功，博纳云注册：https://console.bonuscloud.io/signUp?refer=264a1ce0d14511e894a05731b778d621" +
-                "\n更多工具请关注：币合区块链" +
-                "\n币合官方群：490389116\n--------\n");
+        print("\n币合博纳云抢码脚本 版本号：" + Version.versionName);
         Version.check();
         if (!loadConfig()) {
             return;
@@ -78,13 +75,11 @@ public class Main {
     }
 
     private static void getPreCaptcha() {
-        print("开始预获取验证码");
         new Thread(() -> {
             do {
                 CaptchInfo captcha = getCaptcha(System.currentTimeMillis());
                 if (captcha != null) {
                     sCaptchInfoStack.push(captcha);
-                    print("已成功获取" + sCaptchInfoStack.size() + "张验证码");
                 }
             } while (sCaptchInfoStack.size() < sConfigInfo.getPreCaptchaCount());
         }).start();
